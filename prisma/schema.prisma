@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Profile {
+  id              String  @id @default(uuid())
+  name            String
+  email           String
+  location        String
+  minimumSalary   Int
+  keywords        String
+  curriculumPath  String
+  alertsEnabled   Boolean @default(true)
+  searchFrequency String // e.g. "daily", "weekly"
+
+  notificationChannel String? // 'email' | 'discord' | null
+  discordWebhookUrl   String? // Used if notificationChannel = 'discord'
+
+  applications Application[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Source {
+  id        String    @id @default(uuid())
+  name      String    @unique
+  baseUrl   String
+  vacancies Vacancy[]
+}
+
+model Vacancy {
+  id              String        @id @default(uuid())
+  title           String
+  url             String        @unique
+  description     String?
+  salary          Int?
+  location        String
+  publicationDate DateTime?
+  sourceId        String
+  source          Source        @relation(fields: [sourceId], references: [id])
+  applications    Application[]
+}
+
+model Application {
+  id        String   @id @default(uuid())
+  profileId String
+  profile   Profile  @relation(fields: [profileId], references: [id])
+  vacancyId String
+  vacancy   Vacancy  @relation(fields: [vacancyId], references: [id])
+  appliedAt DateTime @default(now())
+  status    String? // e.g. "pending", "accepted", "rejected"
+  comments  String?
+
+  uniqueKey String @unique // Concatenation of profileId + vacancyId to avoid duplicates
+}
