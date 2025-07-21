@@ -14,12 +14,31 @@ export class profileDatasourceImpl implements ProfileDatasource {
     return ProfileEntity.fromObj(newProfile);
   }
 
-  async updateProfile(updateProfile: UpdateProfileDto): Promise<ProfileEntity> {
-    throw new Error("no implements");
+  async updateProfile(
+    updateProfileDto: UpdateProfileDto,
+  ): Promise<ProfileEntity> {
+    const profile = await prisma.profile.update({
+      where: {
+        id: updateProfileDto.id,
+      },
+      data: updateProfileDto.values,
+    });
+
+    if (!profile) {
+      throw new Error("No se pudo actualizar el perfil");
+    }
+    return ProfileEntity.fromObj(profile);
   }
 
   async getAllProfiles(): Promise<ProfileEntity[]> {
     const allProfiles = await prisma.profile.findMany();
     return allProfiles.map((profile) => ProfileEntity.fromObj(profile));
+  }
+
+  async deleteProfile(profileId: string): Promise<ProfileEntity> {
+    const deletedProfile = await prisma.profile.delete({
+      where: { id: profileId },
+    });
+    return ProfileEntity.fromObj(deletedProfile);
   }
 }

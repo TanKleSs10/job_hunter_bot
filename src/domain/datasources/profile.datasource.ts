@@ -11,4 +11,6 @@ export abstract class ProfileDatasource {
   ): Promise<ProfileEntity>;
 
   abstract getAllProfiles(): Promise<ProfileEntity[]>;
+
+  abstract deleteProfile(profileId: string): Promise<ProfileEntity>;
 }

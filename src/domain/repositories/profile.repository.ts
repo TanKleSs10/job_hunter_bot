@@ -3,12 +3,14 @@ import { ProfileEntity } from "../entities/profile.entity";
 
 export abstract class ProfileRepository {
   abstract createProfile(
-    createProfile: CreateProfileDto,
+    createProfileDto: CreateProfileDto,
   ): Promise<ProfileEntity>;
 
   abstract updateProfile(
-    updateProfile: UpdateProfileDto,
+    updateProfileDto: UpdateProfileDto,
   ): Promise<ProfileEntity>;
 
   abstract getAllProfiles(): Promise<ProfileEntity[]>;
+
+  abstract deleteProfile(profileId: string): Promise<ProfileEntity>;
 }

@@ -9,7 +9,8 @@ export const mainMenuPrompt = async () => {
       choices: [
         { name: "Usar un perfil existente", value: "use" },
         { name: "Crear un nuevo perfil", value: "create" },
-        { name: "Editar un perfil", value: "edit" },
+        { name: "Editar un perfil", value: "update" },
+        { name: "Eliminar un perfil", value: "delete" },
         { name: "Salir", value: "exit" },
       ],
     },

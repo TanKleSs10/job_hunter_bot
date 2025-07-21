@@ -9,15 +9,19 @@ import { ProfileRepository } from "../../domain/repositories/profile.repository"
 export class ProfileRepositoryImpl implements ProfileRepository {
   constructor(private readonly profileDatasource: ProfileDatasource) {}
 
-  createProfile(createProfile: CreateProfileDto): Promise<ProfileEntity> {
-    return this.profileDatasource.createProfile(createProfile);
+  createProfile(createProfileDto: CreateProfileDto): Promise<ProfileEntity> {
+    return this.profileDatasource.createProfile(createProfileDto);
   }
 
-  updateProfile(updateProfile: UpdateProfileDto): Promise<ProfileEntity> {
-    throw new Error("no implement");
+  updateProfile(updateProfileDto: UpdateProfileDto): Promise<ProfileEntity> {
+    return this.profileDatasource.updateProfile(updateProfileDto);
   }
 
   getAllProfiles(): Promise<ProfileEntity[]> {
     return this.profileDatasource.getAllProfiles();
+  }
+
+  deleteProfile(profileId: string): Promise<ProfileEntity> {
+    return this.profileDatasource.deleteProfile(profileId);
   }
 }
